@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: football-connections-api
+    env: node
+    buildCommand: npm install --prefix Football-Connections/backend
+    startCommand: npm start --prefix Football-Connections/backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: FRONTEND_URL
+        value: https://football-connections.onrender.com
+      - key: PORT
+        value: 8000
+
+  - type: static
+    name: football-connections
+    buildCommand: npm install --prefix Football-Connections/frontend && npm run build --prefix Football-Connections/frontend
+    publishDir: Football-Connections/frontend/dist
+    staticPublishPath: /
+    rootDir: .
+    envVars:
+      - key: VITE_API_URL
+        value: https://football-connections-api.onrender.com 
